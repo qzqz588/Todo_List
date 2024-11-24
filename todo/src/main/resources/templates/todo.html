@@ -5,6 +5,8 @@
     <title>ToDoList</title>
 </head>
 <body>
+<!-- header -->>
+<div th:replace="fragments/header :: header"></div>
 <form th:action="@{/todo/create}" method="post">
     <h1>TODO List</h1>
     <label for="todo-desc">새 할일: <input type="text" id="todo-desc" name="todo-desc"></label>
@@ -37,7 +39,7 @@
         </div>
     </div>
 </form>
-
-
+<!-- footer -->
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

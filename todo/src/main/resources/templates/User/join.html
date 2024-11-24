@@ -2,10 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>회원가입</title>
-</head>
     <meta charset="UTF-8">
+</head>
 <body>
-<h1>회원가입</h1>
+<div th:replace="~{fragments/header :: header}"></div>
+
 <form th:action="@{/user/join}" method="post">
     <label for="username">아아디:</label>
     <input type="text" id="id" name="id" required>

@@ -17,25 +17,26 @@ public class SecurityConfig {
             return new BCryptPasswordEncoder(); // Bcrypt 방식의 암호화
         }
 
-        @Bean
+    @Bean
     public SecurityFilterChain customSecurityFilterChain(HttpSecurity http) throws Exception {
-            http.
-                    csrf(csrf -> csrf.disable()) // 필요에 따라 CSRF 비활성화
-                    .authorizeHttpRequests(auth -> auth
-                            .requestMatchers("/user/login", "/user/join").permitAll() // 로그인/회원가입 허용
-                            .anyRequest().authenticated() // 나머지 요청은 인증 필요
-                    )
-                    .formLogin(form -> form
-                            .loginPage("/user/login") // 커스텀 로그인 페이지
-                            .permitAll()
-                    )
-                    .logout(logout -> logout
-                            .logoutUrl("/user/logout") // 로그아웃 설정
-                            .permitAll()
-                    );
+        http
+                .csrf(csrf -> csrf.disable()) // 필요에 따라 CSRF 비활성화
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/user/login", "/user/join", "/home", "/about", "/contact", // 페이지 경로
+                                "/css/**", "/js/**", "/images/**" // 정적 리소스 경로
+                        ).permitAll() // 해당 경로 모두 허용
+                        .anyRequest().authenticated() // 나머지 요청은 인증 필요
+                )
+                .formLogin(form -> form
+                        .loginPage("/user/login") // 커스텀 로그인 페이지
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/user/logout") // 로그아웃 설정
+                        .permitAll()
+                );
 
-            return http.build();
-
-
-        }
+        return http.build();
+    }
 }

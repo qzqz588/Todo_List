@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Header Example</title>
+    <!-- 스타일시트 연결 -->
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+</head>
+<body>
+<header th:fragment="header">
+    <nav>
+        <ul class="nav-menu">
+            <li th:classappend="${activePage == 'home'} ? 'active'">
+                <a th:href="@{/home}">Home</a>
+            </li>
+            <li th:classappend="${activePage == 'about'} ? 'active'">
+                <a th:href="@{/about}">About</a>
+            </li>
+            <li th:classappend="${activePage == 'contact'} ? 'active'">
+                <a th:href="@{/contact}">Contact</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+</body>
+</html>

@@ -27,11 +27,12 @@ public class UserController {
     public String userloginPage() {
         return "User/login";
     }
-    @PostMapping("/user/login")
-    public ResponseEntity<String> userLogin(@RequestParam Long id,
-                                            @RequestParam String password) throws IllegalAccessException {
-        userService.login(id, password);
-        return ResponseEntity.ok("로그인 성공!");
-    }
+//    @PostMapping("/user/login")
+//    public ResponseEntity<String> userLogin(@RequestParam Long id,
+//                                            @RequestParam String password) throws IllegalAccessException {
+//        System.out.println("로그인하러왔음");
+//        userService.login(id, password);
+//        return ResponseEntity.ok("로그인 성공!");
+//    }
 }
 

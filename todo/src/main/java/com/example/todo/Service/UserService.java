@@ -1,8 +1,6 @@
 package com.example.todo.Service;
 
-import com.example.todo.DTO.User.User;
-import com.example.todo.DTO.User.UserDto;
-import com.example.todo.configuration.SecurityConfig;
+import com.example.todo.DTO.User.UserEntity;
 import com.example.todo.configuration.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,28 +13,16 @@ public class UserService {
     private UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     //의존성 주입
+    // 회원가입 로직
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
-    // 회원가입 로직
-    public void registerUser(UserDto userDto) {
-        User user = new User();
-        user.setId(userDto.getId()); // 수동으로 ID 설정
-        user.setUsername(userDto.getUsername());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setEmail(userDto.getEmail());
-
-        userRepository.save(user);
+    public void registerUser(UserEntity userEntity) {
+        userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+        userEntity.setRole("ROLE_USER"); // 기본 사용자 역할
+        userRepository.save(userEntity);
     }
 
-    // 로그인 로직
-    public User login(Long id, String password) {
-        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
-        if (!passwordEncoder.matches(password,user.getPassword())) {
-            throw new IllegalArgumentException("Invalid password");
-        }
-        return user;
-    }
+
 }

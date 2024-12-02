@@ -1,38 +1,43 @@
 package com.example.todo.Controller;
 
-import com.example.todo.DTO.User.UserDto;
+import com.example.todo.DTO.User.UserEntity;
+import com.example.todo.configuration.UserDetails.CustomUserDetailsService;
 import com.example.todo.Service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@Slf4j
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private CustomUserDetailsService customer;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/user/join") //todo 연결 메서드
-    public String userJoinPage() {
-        return "User/join";
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("/user/join")
+    public String registerForm(Model model) {
+        return "/user/join";
     }
 
     @PostMapping("/user/join")
-    public String userJoinSubmit(@ModelAttribute UserDto userDto) {
-        userService.registerUser(userDto); // 유저 등록 로직 실행
-        return "redirect:/user/login"; // 회원가입 후 로그인 페이지로 리다이렉트
+    public String registerSubmit(@ModelAttribute UserEntity userEntity) {
+        System.out.println("username : " + userEntity.getUsername());
+        System.out.println("userEmail" + userEntity.getEmail());
+        userService.registerUser(userEntity);
+        return "redirect:/home";
     }
 
-    @GetMapping("/user/login")
-    public String userloginPage() {
-        return "User/login";
-    }
-//    @PostMapping("/user/login")
-//    public ResponseEntity<String> userLogin(@RequestParam Long id,
-//                                            @RequestParam String password) throws IllegalAccessException {
-//        System.out.println("로그인하러왔음");
-//        userService.login(id, password);
-//        return ResponseEntity.ok("로그인 성공!");
-//    }
+
 }
-
